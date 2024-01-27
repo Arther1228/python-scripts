@@ -1,0 +1,12 @@
+.idea/
+companion_vehicle/
+.vscode/
+.DS_Store
+hadoopclient/
+hive_py/
+__pycache__
+venv
+./Dockerfile
+test/
+*.pyc
+env_file_zhidui
