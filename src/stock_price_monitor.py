@@ -1,22 +1,20 @@
-import requests
-from bs4 import BeautifulSoup
+import akshare as ak
 import time
-## 2025年1月16日，没有解析出来stock-current节点
 
 def get_stock_price(stock_code):
-    url = f"https://quote.eastmoney.com/{stock_code}.html"
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, 'html.parser')
-    price = soup.find('div', class_='stock-current').text
-    return price
-
+    stock_zh_a_spot_df = ak.stock_zh_a_spot()
+    stock_info = stock_zh_a_spot_df[stock_zh_a_spot_df["代码"] == stock_code]
+    if not stock_info.empty:
+        return stock_info.iloc[0]["最新价"]
+    else:
+        return "未找到股票信息"
 
 if __name__ == "__main__":
-    stock_code = "002078"  # 例如贵州茅台
+    stock_code = "002078"  # 例如太阳纸业
     while True:
         try:
             price = get_stock_price(stock_code)
-            print(f" {stock_code} current price: {price}")
+            print(f"股票代码 {stock_code} 的当前价格是: {price}")
         except Exception as e:
             print(f"查询失败: {e}")
 
